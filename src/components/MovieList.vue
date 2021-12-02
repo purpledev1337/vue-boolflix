@@ -4,6 +4,8 @@
         <li
         v-for="movieCard, i in moviesSearched"
         :key="100+i">
+            <img v-if="movieCard.poster_path !== null" class="poster_img" :src="posterUrl + movieCard.poster_path" :alt="movieCard.title">
+            <img v-else src="../assets/Poster_NULL.jpg" class="poster_img" :alt="movieCard.name">
             <h1>{{ movieCard.title }}</h1>
             <h2>{{ movieCard.vote_average}}</h2>
             <h3>{{ movieCard.original_title }}</h3>
@@ -14,6 +16,8 @@
         <li
         v-for="serieCard, j in seriesSearched"
         :key="200+j">
+            <img v-if="serieCard.poster_path !== null" class="poster_img" :src="posterUrl + serieCard.poster_path" :alt="serieCard.name">
+            <img v-else src="../assets/Poster_NULL.jpg" class="poster_img" :alt="serieCard.name">
             <h1>{{ serieCard.name }}</h1>
             <h2>{{ serieCard.vote_average}}</h2>
             <h3>{{ serieCard.original_name }}</h3>
@@ -33,6 +37,11 @@ export default {
   props: {
       moviesSearched : Array,
       seriesSearched : Array
+  },
+  data() {
+      return {
+          posterUrl : 'http://image.tmdb.org/t/p/w780/',
+      }
   }
 }
 </script>
@@ -44,4 +53,8 @@ img {
     width: 30px;
 }
 
+.poster_img {
+    width: 150px;
+    height: 200px;
+}
 </style>
