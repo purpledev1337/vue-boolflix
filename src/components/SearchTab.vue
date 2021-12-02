@@ -1,7 +1,7 @@
 <template>
   <div>
     <input v-model="searchTxt" type="text">
-    <button @click="searchMovie">Cerca</button>
+    <button @click="searchAny">Cerca</button>
   </div>
 </template>
 
@@ -14,19 +14,28 @@ export default {
     return {
       searchTxt: '',
       apiUrl: '',
-      searchedMoviesList: []
+      searchedMoviesList: [],
+      searchedSeriesList: []
     }
   },
   methods: {
-    searchMovie() {
-      this.apiUrl = "https://api.themoviedb.org/3/search/movie?api_key=6daf8c812c8d1160c91335b1fd6ab733&query=" + this.searchTxt.replace(/\s/g,"+");
+    searchAny() {
+      this.apiUrl = "https://api.themoviedb.org/3/search/movie?api_key=6daf8c812c8d1160c91335b1fd6ab733" + "&language=it-IT" + "&query=" + this.searchTxt.replace(/\s/g,"+");
       axios
       .get(this.apiUrl)
-      .then((foundList) => {
-        this.searchedMoviesList = foundList.data.results;
-        console.log("Lista in SearchTab", this.searchedMoviesList);
-        this.$emit('searchDone', this.searchedMoviesList)
-      })
+      .then((foundMoviesList) => {
+          this.searchedMoviesList = foundMoviesList.data.results;
+          console.log("Lista FILM in SearchTab", this.searchedMoviesList);
+          this.$emit('moviesFound', this.searchedMoviesList);
+          });
+      this.apiUrl = "https://api.themoviedb.org/3/search/tv?api_key=6daf8c812c8d1160c91335b1fd6ab733" + "&language=it-IT" + "&query=" + this.searchTxt.replace(/\s/g,"+");
+      axios
+      .get(this.apiUrl)
+      .then((foundSeriesList) => {
+      this.searchedSeriesList = foundSeriesList.data.results;
+      console.log("Lista SERIE in SearchTab", this.searchedSeriesList);
+      this.$emit('seriesFound', this.searchedSeriesList)
+      });
     }
   }
 }

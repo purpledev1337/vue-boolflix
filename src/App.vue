@@ -2,11 +2,13 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
     <SearchTab
-    @searchDone="getMovieList"
+    @moviesFound="getMovieList"
+    @seriesFound="getSerieList"
     />
 
     <MovieList
     :moviesSearched="this.searchedMovies"
+    :seriesSearched="this.searchedSeries"
     />
   </div>
 </template>
@@ -23,13 +25,18 @@ export default {
   },
   data() {
     return {
-      searchedMovies: []
+      searchedMovies: [],
+      searchedSeries: []
     }
   },
   methods: {
     getMovieList(list) {
       this.searchedMovies = list
-      console.log("Lista in App", this.searchedMovies);
+      console.log("Lista FILM in App", this.searchedMovies);
+    },
+    getSerieList(list) {
+    this.searchedSeries = list
+    console.log("Lista SERIE in App", this.searchedSeries);
     }
   }
 }
