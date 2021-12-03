@@ -8,8 +8,8 @@
             <img v-else src="../assets/Poster_NULL.jpg" class="poster_img" :alt="movieCard.name">
             <h1>{{ movieCard.title }}</h1>
             <h2>{{ movieCard.vote_average }}</h2>
-            <span v-for="index in parseInt(Math.round(movieCard.vote_average / 2))" :key="movieCard.id + index">x</span>
-            <span v-for="index in (5 - parseInt(Math.round(movieCard.vote_average / 2)))" :key="movieCard.id + 'empty' + index">o</span>
+            <font-awesome-icon icon="star" class="filled_star" v-for="index in parseInt(Math.round(movieCard.vote_average / 2))" :key="movieCard.id + index"></font-awesome-icon>
+            <font-awesome-icon icon="star" v-for="index in (5 - parseInt(Math.round(movieCard.vote_average / 2)))" :key="movieCard.id + 'empty' + index"></font-awesome-icon>
             <h3>{{ movieCard.original_title }}</h3>
             <img v-if="movieCard.original_language === 'it'" src="../assets/Flag_ITA.png" :alt="movieCard.original_language">
             <img v-if="movieCard.original_language === 'en'" src="../assets/Flag_UK.png" :alt="movieCard.original_language">
@@ -22,9 +22,8 @@
             <img v-else src="../assets/Poster_NULL.jpg" class="poster_img" :alt="serieCard.name">
             <h1>{{ serieCard.name }}</h1>
             <h2>{{ serieCard.vote_average}}</h2>
-            <font-awesome-icon icon="spinner" />
-            <span v-for="index in parseInt(Math.round(serieCard.vote_average / 2))" :key="index + serieCard.id">x</span>
-            <span v-for="index in (5 - parseInt(Math.round(serieCard.vote_average / 2)))" :key="serieCard.id + 'empty' + index">o</span>
+            <font-awesome-icon icon="star" class="filled_star" v-for="index in parseInt(Math.round(serieCard.vote_average / 2))" :key="serieCard.id + index"></font-awesome-icon>
+            <font-awesome-icon icon="star" v-for="index in (5 - parseInt(Math.round(serieCard.vote_average / 2)))" :key="serieCard.id + 'empty' + index"></font-awesome-icon>
             <h3>{{ serieCard.original_name }}</h3>
             <img v-if="serieCard.origin_country == 'IT'" src="../assets/Flag_ITA.png" :alt="serieCard.origin_country">
             <img v-if="serieCard.origin_country == 'GB'" src="../assets/Flag_UK.png" :alt="serieCard.origin_country">
@@ -61,5 +60,10 @@ img {
 .poster_img {
     width: 150px;
     height: 200px;
+}
+
+.filled_star {
+    color: blue;
+    filter: invert(1);
 }
 </style>
