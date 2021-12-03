@@ -32,10 +32,10 @@ export default {
       axios
       .get(this.apiUrl)
       .then((foundSeriesList) => {
-      this.searchedSeriesList = foundSeriesList.data.results;
-      console.log("Lista SERIE in SearchTab", this.searchedSeriesList);
-      this.$emit('seriesFound', this.searchedSeriesList)
-      });
+          this.searchedSeriesList = foundSeriesList.data.results;
+          console.log("Lista SERIE in SearchTab", this.searchedSeriesList);
+          this.$emit('seriesFound', this.searchedSeriesList)
+          });
     }
   }
 }

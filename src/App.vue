@@ -35,7 +35,7 @@ export default {
       console.log("Lista FILM in App", this.searchedMovies);
     },
     getSerieList(list) {
-    this.searchedSeries = list
+      this.searchedSeries = list
     console.log("Lista SERIE in App", this.searchedSeries);
     }
   }
