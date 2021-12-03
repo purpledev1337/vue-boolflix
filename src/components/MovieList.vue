@@ -4,8 +4,7 @@
         <li
         v-for="movieCard, i in moviesSearched"
         :key="'m'+ i">
-            <img v-if="movieCard.poster_path !== null" class="poster_img" :src="posterUrl + movieCard.poster_path" :alt="movieCard.title">
-            <img v-else src="../assets/Poster_NULL.jpg" class="poster_img" :alt="movieCard.name">
+            <img class="poster_img" :src="getPosterImg(movieCard)" :alt="movieCard.title">
             <h1>{{ movieCard.title }}</h1>
             <h2>{{ movieCard.vote_average }}</h2>
             <font-awesome-icon icon="star" class="filled_star" v-for="index in parseInt(Math.round(movieCard.vote_average / 2))" :key="movieCard.id + index"></font-awesome-icon>
@@ -16,8 +15,7 @@
         <li
         v-for="serieCard, j in seriesSearched"
         :key="'s'+ j">
-            <img v-if="serieCard.poster_path !== null" class="poster_img" :src="posterUrl + serieCard.poster_path" :alt="serieCard.name">
-            <img v-else src="../assets/Poster_NULL.jpg" class="poster_img" :alt="serieCard.name">
+            <img class="poster_img" :src="getPosterImg(serieCard)">
             <h1>{{ serieCard.name }}</h1>
             <h2>{{ serieCard.vote_average}}</h2>
             <font-awesome-icon icon="star" class="filled_star" v-for="index in parseInt(Math.round(serieCard.vote_average / 2))" :key="serieCard.id + index"></font-awesome-icon>
@@ -47,6 +45,13 @@ export default {
       }
   },
   methods: {
+      getPosterImg(arg) {
+          if (arg.poster_path !== null) {
+              return (this.posterUrl + arg.poster_path)
+          } else {
+              return "https://ih1.redbubble.net/image.460040615.2591/fposter,small,wall_texture,product,750x1000.u1.jpg"
+          }
+      },
       pickMovieFlag(arg) {
           if (arg.original_language === 'it') {
               return this.flagIt
