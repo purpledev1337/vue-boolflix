@@ -11,9 +11,7 @@
             <font-awesome-icon icon="star" class="filled_star" v-for="index in parseInt(Math.round(movieCard.vote_average / 2))" :key="movieCard.id + index"></font-awesome-icon>
             <font-awesome-icon icon="star" v-for="index in (5 - parseInt(Math.round(movieCard.vote_average / 2)))" :key="movieCard.id + 'empty' + index"></font-awesome-icon>
             <h3>{{ movieCard.original_title }}</h3>
-            <img v-if="movieCard.original_language === 'it'" src="../assets/Flag_ITA.png" :alt="movieCard.original_language">
-            <img v-if="movieCard.original_language === 'en'" src="../assets/Flag_UK.png" :alt="movieCard.original_language">
-            <img v-if="movieCard.original_language !== 'it' & movieCard.original_language !== 'en'" src="../assets/Flag_WORLD.jpg" :alt="movieCard.original_language">
+            <img :src="pickMovieFlag(movieCard)" :alt="movieCard.original_language">
         </li>
         <li
         v-for="serieCard, j in seriesSearched"
@@ -25,10 +23,7 @@
             <font-awesome-icon icon="star" class="filled_star" v-for="index in parseInt(Math.round(serieCard.vote_average / 2))" :key="serieCard.id + index"></font-awesome-icon>
             <font-awesome-icon icon="star" v-for="index in (5 - parseInt(Math.round(serieCard.vote_average / 2)))" :key="serieCard.id + 'empty' + index"></font-awesome-icon>
             <h3>{{ serieCard.original_name }}</h3>
-            <img v-if="serieCard.origin_country == 'IT'" src="../assets/Flag_ITA.png" :alt="serieCard.origin_country">
-            <img v-if="serieCard.origin_country == 'GB'" src="../assets/Flag_UK.png" :alt="serieCard.origin_country">
-            <img v-if="serieCard.origin_country == 'US'" src="../assets/Flag_US.png" :alt="serieCard.origin_country">
-            <img v-if="serieCard.origin_country != 'IT' & serieCard.origin_country != 'GB' & serieCard.origin_country != 'US'" src="../assets/Flag_WORLD.jpg" :alt="serieCard.original_language">
+            <img :src="pickSerieFlag(serieCard)" :alt="serieCard.origin_country">
         </li>
     </ul>
 
@@ -44,7 +39,33 @@ export default {
   },
   data() {
       return {
-          posterUrl : 'http://image.tmdb.org/t/p/w780/'
+          posterUrl: 'http://image.tmdb.org/t/p/w780/',
+          flagIt: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Flag_of_Italy.svg/1200px-Flag_of_Italy.svg.png",
+          flagUk: "https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg",
+          flagUs: "https://upload.wikimedia.org/wikipedia/commons/e/e2/Flag_of_the_United_States_%28Pantone%29.svg",
+          flagWorld: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/World_Flag_%282004%29.svg/800px-World_Flag_%282004%29.svg.png"
+      }
+  },
+  methods: {
+      pickMovieFlag(arg) {
+          if (arg.original_language === 'it') {
+              return this.flagIt
+          } if (arg.original_language === 'en' ) {
+              return this.flagUk
+          }  else {
+              return this.flagWorld
+          }
+      },
+      pickSerieFlag(arg) {
+          if (arg.origin_country[0] === 'IT') {
+              return this.flagIt
+          } if (arg.origin_country[0] === 'GB') {
+              return this.flagUk
+          } if (arg.origin_country[0] === 'US') {
+              return this.flagUs
+          } else {
+              return this.flagWorld
+          }
       }
   }
 }
@@ -54,7 +75,8 @@ export default {
 <style scoped lang="scss">
 
 img {
-    width: 30px;
+    width: 50px;
+    height: 30px;
 }
 
 .poster_img {
