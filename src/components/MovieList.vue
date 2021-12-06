@@ -9,6 +9,7 @@
             <h2>{{ movieCard.vote_average }}</h2>
             <font-awesome-icon icon="star" v-for="index in 5" :key="index" :class="star(index, movieCard.vote_average)" />
             <h3>{{ movieCard.original_title }}</h3>
+            <p>{{ movieCard.overview }}</p>
             <img :src="pickMovieFlag(movieCard)" :alt="movieCard.original_language">
         </li>
         <li
@@ -19,6 +20,7 @@
             <h2>{{ serieCard.vote_average}}</h2>
             <font-awesome-icon icon="star" v-for="index in 5" :key="index" :class="star(index, serieCard.vote_average)" />
             <h3>{{ serieCard.original_name }}</h3>
+            <p>{{ serieCard.overview }}</p>
             <img :src="pickSerieFlag(serieCard)" :alt="serieCard.origin_country">
         </li>
     </ul>
@@ -35,7 +37,6 @@ export default {
   },
   data() {
       return {
-          numberOfStar: '',
           posterUrl: 'http://image.tmdb.org/t/p/w780/',
           flagIt: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Flag_of_Italy.svg/1200px-Flag_of_Italy.svg.png",
           flagUk: "https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg",
@@ -76,9 +77,6 @@ export default {
           } else {
               return this.flagWorld
           }
-      },
-      getStarNumber(arg) {
-          this.numberOfStar = parseInt(Math.round(arg.vote_average / 2))
       }
   }
 }
