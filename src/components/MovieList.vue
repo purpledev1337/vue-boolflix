@@ -7,8 +7,7 @@
             <img class="poster_img" :src="getPosterImg(movieCard)" :alt="movieCard.title">
             <h1>{{ movieCard.title }}</h1>
             <h2>{{ movieCard.vote_average }}</h2>
-            <font-awesome-icon icon="star" class="filled_star" v-for="index in parseInt(Math.round(movieCard.vote_average / 2))" :key="movieCard.id + index"></font-awesome-icon>
-            <font-awesome-icon icon="star" v-for="index in (5 - parseInt(Math.round(movieCard.vote_average / 2)))" :key="movieCard.id + 'empty' + index"></font-awesome-icon>
+            <font-awesome-icon icon="star" v-for="index in 5" :key="index" :class="star(index, movieCard.vote_average)" />
             <h3>{{ movieCard.original_title }}</h3>
             <img :src="pickMovieFlag(movieCard)" :alt="movieCard.original_language">
         </li>
@@ -18,8 +17,7 @@
             <img class="poster_img" :src="getPosterImg(serieCard)">
             <h1>{{ serieCard.name }}</h1>
             <h2>{{ serieCard.vote_average}}</h2>
-            <font-awesome-icon icon="star" class="filled_star" v-for="index in parseInt(Math.round(serieCard.vote_average / 2))" :key="serieCard.id + index"></font-awesome-icon>
-            <font-awesome-icon icon="star" v-for="index in (5 - parseInt(Math.round(serieCard.vote_average / 2)))" :key="serieCard.id + 'empty' + index"></font-awesome-icon>
+            <font-awesome-icon icon="star" v-for="index in 5" :key="index" :class="star(index, serieCard.vote_average)" />
             <h3>{{ serieCard.original_name }}</h3>
             <img :src="pickSerieFlag(serieCard)" :alt="serieCard.origin_country">
         </li>
@@ -37,6 +35,7 @@ export default {
   },
   data() {
       return {
+          numberOfStar: '',
           posterUrl: 'http://image.tmdb.org/t/p/w780/',
           flagIt: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Flag_of_Italy.svg/1200px-Flag_of_Italy.svg.png",
           flagUk: "https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg",
@@ -45,6 +44,12 @@ export default {
       }
   },
   methods: {
+      star(index, value) {
+          let vote = Math.round(value / 2);
+          if (index <= vote) {
+              return "active";
+          }
+      },
       getPosterImg(arg) {
           if (arg.poster_path !== null) {
               return (this.posterUrl + arg.poster_path)
@@ -71,6 +76,9 @@ export default {
           } else {
               return this.flagWorld
           }
+      },
+      getStarNumber(arg) {
+          this.numberOfStar = parseInt(Math.round(arg.vote_average / 2))
       }
   }
 }
@@ -89,8 +97,12 @@ img {
     height: 200px;
 }
 
-.filled_star {
-    color: blue;
-    filter: invert(1);
+// .filled_star {
+//     color: blue;
+//     filter: invert(1);
+// }
+
+.active {
+    color: gold;
 }
 </style>
