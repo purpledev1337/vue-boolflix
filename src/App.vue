@@ -1,15 +1,19 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <SearchTab
-    @moviesFound="getMovieList"
-    @seriesFound="getSerieList"
-    />
+  <div>
+    <header>
+      <img alt="BoolFlix logo" src="./assets/Netflix_logo.png">
+      <SearchTab id="search_tab"
+      @moviesFound="getMovieList"
+      @seriesFound="getSerieList"
+      />
+    </header>
 
+    <main>
     <MovieList
     :moviesSearched="this.searchedMovies"
     :seriesSearched="this.searchedSeries"
     />
+    </main>
   </div>
 </template>
 
@@ -43,5 +47,31 @@ export default {
 </script>
 
 <style lang="scss">
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+div {
+  background-color: gray;
+}
+
+header {
+  height: 150px;
+  background-color: black;
+  padding: 0 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  img {
+    height: 90%;
+  }
+}
+
+main {
+  height: 100%;
+  background-color: gray;
+}
 </style>

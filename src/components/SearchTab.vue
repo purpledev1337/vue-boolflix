@@ -54,5 +54,29 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+div {
+  background-color: black;
+}
+
+input[type=text] {
+  width: 300px;
+  height: 35px;
+  padding: 15px;
+  background-color: black;
+  color: white;
+  border: solid 3px black;
+  border-bottom: 2px solid red;
+}
+
+button {
+  width: 100px;
+  height: 40px;
+  border-radius: 5px;
+  margin: 0 25px;
+  border: none;
+  color: white;
+  font-size: 1.2em;
+  background-color: red;
+}
 
 </style>

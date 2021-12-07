@@ -1,29 +1,45 @@
 <template>
 
-    <ul>
-        <li
+    <div id="list_container">
+        <div class="card"
         v-for="movieCard, i in moviesSearched"
         :key="'m'+ i">
             <img class="poster_img" :src="getPosterImg(movieCard)" :alt="movieCard.title">
-            <h1>{{ movieCard.title }}</h1>
-            <h2>{{ movieCard.vote_average }}</h2>
-            <font-awesome-icon icon="star" v-for="index in 5" :key="index" :class="star(index, movieCard.vote_average)" />
-            <h3>{{ movieCard.original_title }}</h3>
-            <p>{{ movieCard.overview }}</p>
-            <img :src="pickMovieFlag(movieCard)" :alt="movieCard.original_language">
-        </li>
-        <li
+            <div class="info_container">
+                <h1>{{ movieCard.title }}</h1>
+                <h3 v-if="movieCard.title !== movieCard.original_title"><strong>Titolo Originale:</strong> {{ movieCard.original_title }}</h3>
+                <div class="language_container">
+                    Lingua:
+                    <img class="flag" :src="pickMovieFlag(movieCard)" :alt="movieCard.original_language">
+                </div>
+                <div class="star_container">
+                    Voto:
+                    <font-awesome-icon icon="star" v-for="index in 5" :key="index" :class="star(index, movieCard.vote_average)" />
+                    <h2>({{ movieCard.vote_average }})</h2>
+                </div>
+                <p>{{ movieCard.overview }}</p>
+            </div>
+        </div>
+        <div class="card"
         v-for="serieCard, j in seriesSearched"
         :key="'s'+ j">
             <img class="poster_img" :src="getPosterImg(serieCard)">
-            <h1>{{ serieCard.name }}</h1>
-            <h2>{{ serieCard.vote_average}}</h2>
-            <font-awesome-icon icon="star" v-for="index in 5" :key="index" :class="star(index, serieCard.vote_average)" />
-            <h3>{{ serieCard.original_name }}</h3>
-            <p>{{ serieCard.overview }}</p>
-            <img :src="pickSerieFlag(serieCard)" :alt="serieCard.origin_country">
-        </li>
-    </ul>
+            <div class="info_container">
+                <h1>{{ serieCard.name }}</h1>
+                <h3 v-if="serieCard.name !== serieCard.original_name">Titolo Originale: {{ serieCard.original_name }}</h3>
+                <div class="language_container">
+                    Paese di Produzione:
+                    <img class="flag" :src="pickSerieFlag(serieCard)" :alt="serieCard.origin_country">
+                </div>
+                <div class="star_container">
+                    Voto:
+                    <font-awesome-icon icon="star" v-for="index in 5" :key="index" :class="star(index, serieCard.vote_average)" />
+                    <h2>({{ serieCard.vote_average}})</h2>
+                </div>
+                <p>{{ serieCard.overview }}</p>
+            </div>    
+        </div>
+    </div>
 
 </template>
 
@@ -49,6 +65,8 @@ export default {
           let vote = Math.round(value / 2);
           if (index <= vote) {
               return "active";
+          } else {
+              return "inactive"
           }
       },
       getPosterImg(arg) {
@@ -84,23 +102,97 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+#list_container {
+    display: flex;
+    flex-wrap: wrap;
+}
 
-img {
-    width: 50px;
-    height: 30px;
+.card {
+    width: calc(100% / 6 - 10px);
+    height: 450px;
+    margin: 2.5px 5px;
+    color: white;
+    position: relative;
+
+    &:hover .poster_img {
+        display: none;
+        }
+
+    .poster_img {
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+        object-fit: cover;
+        position: absolute;
+    }
+
+    .info_container {
+        height: 100%;
+        display: flex;
+        background-color: black;
+        border-radius: 5px;
+        padding: 5px;
+        flex-direction: column;
+        justify-content: flex-start;
+
+        h1 {
+            margin: 15px 0;
+            text-align: center;
+            font-size: 1.5em;
+        }
+
+        h3 {
+            margin: 15px 0;
+        }
+
+        .language_container {
+            background-color: inherit;
+            vertical-align: middle;
+            line-height: 30px;
+
+            .flag {
+                width: 50px;
+                height: 30px;
+                margin-left: 10px;
+                display: inline-block;
+            }
+        }
+
+        .star_container {
+            background-color: inherit;
+            margin: 10px 0;
+
+            .active {
+                color: gold;
+            }
+
+            .inactive {
+                color: grey;
+            }
+
+            h2 {
+                margin-left: 5px;
+                display: inline-block;
+                font-size: 1em;
+            }
+        }
+
+        p {
+            width: 100%;
+            height: 110px;
+            white-space: wrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 6;
+            line-clamp: 6; 
+            -webkit-box-orient: vertical;
+        }
+    }
 }
 
 .poster_img {
     width: 150px;
     height: 200px;
-}
-
-// .filled_star {
-//     color: blue;
-//     filter: invert(1);
-// }
-
-.active {
-    color: gold;
 }
 </style>
