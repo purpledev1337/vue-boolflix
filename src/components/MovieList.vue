@@ -17,7 +17,10 @@
                     <font-awesome-icon icon="star" v-for="index in 5" :key="index" :class="star(index, movieCard.vote_average)" />
                     <h2>({{ movieCard.vote_average }})</h2>
                 </div>
-                <p>{{ movieCard.overview }}</p>
+                <div class="main_actors">
+                    <span><strong>Attori Principali:</strong> {{ printActors(i, 0) }}, {{ printActors(i, 1) }}, {{ printActors(i, 2) }}, {{ printActors(i, 3) }}, {{ printActors(i, 4) }}</span>
+                </div>
+                <p><strong>Trama: </strong>{{ movieCard.overview }}</p>
             </div>
         </div>
         <div class="card"
@@ -36,7 +39,7 @@
                     <font-awesome-icon icon="star" v-for="index in 5" :key="index" :class="star(index, serieCard.vote_average)" />
                     <h2>({{ serieCard.vote_average}})</h2>
                 </div>
-                <p>{{ serieCard.overview }}</p>
+                <p><strong>Trama: </strong>{{ serieCard.overview }}</p>
             </div>    
         </div>
     </div>
@@ -47,9 +50,11 @@
 
 export default {
   name: 'MovieList',
+  actorsList: [],
   props: {
       moviesSearched : Array,
-      seriesSearched : Array
+      seriesSearched : Array,
+      actorsSearched : Array
   },
   data() {
       return {
@@ -65,8 +70,6 @@ export default {
           let vote = Math.round(value / 2);
           if (index <= vote) {
               return "active";
-          } else {
-              return "inactive"
           }
       },
       getPosterImg(arg) {
@@ -81,7 +84,7 @@ export default {
               return this.flagIt
           } if (arg.original_language === 'en' ) {
               return this.flagUk
-          }  else {
+          } else {
               return this.flagWorld
           }
       },
@@ -95,7 +98,37 @@ export default {
           } else {
               return this.flagWorld
           }
+      },
+      printActors(index, i) {
+        //   for (let i = 0; i < 5; i++){
+            if (this.actorsSearched[index].length > i) {
+                return this.actorsSearched[index][i].name
+            }
+        //   }
       }
+    //   getActors (movieId) {
+
+    //     // for (let i = 0; i < this.moviesSearched.length; i++) {
+    //         this.apiCreditsUrl = 'https://api.themoviedb.org/3/movie/' + movieId + '/credits?api_key=6daf8c812c8d1160c91335b1fd6ab733';
+
+    //         axios
+    //         .get(this.apiCreditsUrl)
+    //         .then((foundCreditsList) => {
+    //             let searchedCastList = foundCreditsList.data.cast
+    //                 console.log("searchedCastList", searchedCastList);
+    //                 searchedCastList.splice(5);
+    //                 this.actorsList = searchedCastList
+    //             // for (let j = 0; j < searchedCastList.length; j++) {
+    //             //     let actorFound = searchedCastList[j].name
+    //             //     console.log("attore trovato", actorFound);
+    //             //     this.actorsList.push(actorFound)
+    //             // }
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //         })
+    //     // }
+    // }
   }
 }
 </script>
@@ -111,29 +144,39 @@ export default {
     width: calc(100% / 6 - 10px);
     height: 450px;
     margin: 2.5px 5px;
+    background-color: rgb(30, 30, 30);
     color: white;
+    border-radius: 15px;
     position: relative;
+    transition: all ease-out 500ms;
 
     &:hover .poster_img {
         display: none;
         }
 
+    &:hover {
+        z-index: 1000;
+        transform: scale(1.15);
+    }
+
     .poster_img {
         width: 100%;
         height: 100%;
-        border-radius: 5px;
         object-fit: cover;
         position: absolute;
+    border-radius: 15px;
+
     }
 
     .info_container {
         height: 100%;
         display: flex;
-        background-color: black;
-        border-radius: 5px;
-        padding: 5px;
+        background-color: inherit;
+        padding: 5px 20px;
         flex-direction: column;
         justify-content: flex-start;
+    border-radius: 15px;
+
 
         h1 {
             margin: 15px 0;
@@ -175,6 +218,11 @@ export default {
                 display: inline-block;
                 font-size: 1em;
             }
+        }
+
+        .main_actors {
+            background-color: inherit;
+            margin-bottom: 10px;
         }
 
         p {

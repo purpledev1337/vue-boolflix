@@ -5,6 +5,7 @@
       <SearchTab id="search_tab"
       @moviesFound="getMovieList"
       @seriesFound="getSerieList"
+      @actorsFound="getActorsList"
       />
     </header>
 
@@ -12,6 +13,7 @@
     <MovieList
     :moviesSearched="this.searchedMovies"
     :seriesSearched="this.searchedSeries"
+    :actorsSearched="this.searchedActors"
     />
     </main>
   </div>
@@ -30,7 +32,8 @@ export default {
   data() {
     return {
       searchedMovies: [],
-      searchedSeries: []
+      searchedSeries: [],
+      searchedActors: []
     }
   },
   methods: {
@@ -41,6 +44,10 @@ export default {
     getSerieList(list) {
       this.searchedSeries = list
     console.log("Lista SERIE in App", this.searchedSeries);
+    },
+    getActorsList(list) {
+      this.searchedActors = list
+    console.log("Lista SERIE in App", this.searchedActors);
     }
   }
 }
