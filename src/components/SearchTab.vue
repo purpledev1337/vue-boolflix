@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input v-model="searchTxt" type="text">
+    <input v-model="searchTxt" @keyup.enter="searchAny" type="text">
     <button @click="searchAny">Cerca</button>
   </div>
 </template>
@@ -19,10 +19,9 @@ export default {
       apiUrl: '',
       apiCreditsUrl: '',
       movieId: '',
-      mainActors: '',
+      serieId: '',
       searchedMoviesList: [],
       searchedSeriesList: [],
-      searchedMoviesActorsList: []
     }
   },
   methods: {
@@ -33,45 +32,47 @@ export default {
       axios
       .get(this.apiUrl)
       .then((foundMoviesList) => {
-
           this.searchedMoviesList = foundMoviesList.data.results;
-          console.log("Lista FILM in SearchTab", this.searchedMoviesList);
-          this.$emit('moviesFound', this.searchedMoviesList);
+          this.searchedMoviesList.forEach((item) => {
+            this.movieId = item.id
+            this.apiCreditsUrl = 'https://api.themoviedb.org/3/movie/' + this.movieId + '/credits?api_key=6daf8c812c8d1160c91335b1fd6ab733';
+            axios
+            .get(this.apiCreditsUrl)
+            .then((foundCreditsList) => {
+              if (foundCreditsList.data.cast.length > 5) {
+                foundCreditsList.data.cast.length = 5
+              }
+              // item.cast = foundCreditsList.data.cast
+              this.$set(item, 'cast', foundCreditsList.data.cast);
+            })
+          });
 
+          this.$emit('moviesFound', this.searchedMoviesList);
       });
-        this.searchedMoviesActorsList = []
-         this.mainActors = ''
-      // 5 actors call
-       for (let i = 0; i < this.searchedMoviesList.length; i++) {
-         this.movieId = parseInt(this.searchedMoviesList[i].id)
-         console.log("id film",parseInt(this.searchedMoviesList[i].id));
-         this.apiCreditsUrl = 'https://api.themoviedb.org/3/movie/' + this.movieId + '/credits?api_key=6daf8c812c8d1160c91335b1fd6ab733';
-         axios
-         .get(this.apiCreditsUrl)
-         .then((foundCreditsList) => {
-           this.mainActors = foundCreditsList.data.cast
-           console.log("attori principali",this.mainActors);
-             this.searchedMoviesActorsList.push(this.mainActors)
-                 console.log("list attori film cercati", this.searchedMoviesActorsList);
-                 this.$emit('actorsFound', this.searchedMoviesActorsList)
-             // for (let j = 0; j < searchedCastList.length; j++) {
-             //     let actorFound = searchedCastList[j].name
-             //     console.log("attore trovato", actorFound);
-             //     this.actorsList.push(actorFound)
-             // }
-         })
-       }
+
       this.apiUrl = this.baseUrl + "tv?" + this.apiKey + this.apiLanguage + this.searchTxt.replace(/\s/g,"+");
 
       axios
       .get(this.apiUrl)
       .then((foundSeriesList) => {
-
           this.searchedSeriesList = foundSeriesList.data.results;
-          console.log("Lista SERIE in SearchTab", this.searchedSeriesList);
-          this.$emit('seriesFound', this.searchedSeriesList);
+          this.searchedSeriesList.forEach((item) => {
+            this.serieId = item.id
+            this.apiCreditsUrl = 'https://api.themoviedb.org/3/tv/' + this.serieId + '/credits?api_key=6daf8c812c8d1160c91335b1fd6ab733';
+            axios
+            .get(this.apiCreditsUrl)
+            .then((foundCreditsList) => {
+              if (foundCreditsList.data.cast.length > 5) {
+                foundCreditsList.data.cast.length = 5
+              }
+              this.$set(item, 'cast', foundCreditsList.data.cast);
+            })
+          })
 
+          this.$emit('seriesFound', this.searchedSeriesList);
       });
+
+      
     }
   }
 }

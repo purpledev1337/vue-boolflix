@@ -7,7 +7,7 @@
             <img class="poster_img" :src="getPosterImg(movieCard)" :alt="movieCard.title">
             <div class="info_container">
                 <h1>{{ movieCard.title }}</h1>
-                <h3 v-if="movieCard.title !== movieCard.original_title"><strong>Titolo Originale:</strong> {{ movieCard.original_title }}</h3>
+                <h3 v-if="movieCard.title !== movieCard.original_title">({{ movieCard.original_title }})</h3>
                 <div class="language_container">
                     Lingua:
                     <img class="flag" :src="pickMovieFlag(movieCard)" :alt="movieCard.original_language">
@@ -18,7 +18,8 @@
                     <h2>({{ movieCard.vote_average }})</h2>
                 </div>
                 <div class="main_actors">
-                    <span><strong>Attori Principali:</strong> {{ printActors(i, 0) }}, {{ printActors(i, 1) }}, {{ printActors(i, 2) }}, {{ printActors(i, 3) }}, {{ printActors(i, 4) }}</span>
+                    <strong>Attori Principali: </strong>
+                    <span class="actor_names" v-for="actor, k in movieCard.cast" :key="k">{{ actor.name }}, </span>
                 </div>
                 <p><strong>Trama: </strong>{{ movieCard.overview }}</p>
             </div>
@@ -29,7 +30,7 @@
             <img class="poster_img" :src="getPosterImg(serieCard)">
             <div class="info_container">
                 <h1>{{ serieCard.name }}</h1>
-                <h3 v-if="serieCard.name !== serieCard.original_name">Titolo Originale: {{ serieCard.original_name }}</h3>
+                <h3 v-if="serieCard.name !== serieCard.original_name">({{ serieCard.original_name }})</h3>
                 <div class="language_container">
                     Paese di Produzione:
                     <img class="flag" :src="pickSerieFlag(serieCard)" :alt="serieCard.origin_country">
@@ -38,6 +39,10 @@
                     Voto:
                     <font-awesome-icon icon="star" v-for="index in 5" :key="index" :class="star(index, serieCard.vote_average)" />
                     <h2>({{ serieCard.vote_average}})</h2>
+                </div>
+                <div class="main_actors">
+                    <strong>Attori Principali: </strong>
+                    <span class="actor_names" v-for="actor, l in serieCard.cast" :key="l">{{ actor.name }}, </span>
                 </div>
                 <p><strong>Trama: </strong>{{ serieCard.overview }}</p>
             </div>    
@@ -50,11 +55,9 @@
 
 export default {
   name: 'MovieList',
-  actorsList: [],
   props: {
       moviesSearched : Array,
       seriesSearched : Array,
-      actorsSearched : Array
   },
   data() {
       return {
@@ -98,37 +101,7 @@ export default {
           } else {
               return this.flagWorld
           }
-      },
-      printActors(index, i) {
-        //   for (let i = 0; i < 5; i++){
-            if (this.actorsSearched[index].length > i) {
-                return this.actorsSearched[index][i].name
-            }
-        //   }
       }
-    //   getActors (movieId) {
-
-    //     // for (let i = 0; i < this.moviesSearched.length; i++) {
-    //         this.apiCreditsUrl = 'https://api.themoviedb.org/3/movie/' + movieId + '/credits?api_key=6daf8c812c8d1160c91335b1fd6ab733';
-
-    //         axios
-    //         .get(this.apiCreditsUrl)
-    //         .then((foundCreditsList) => {
-    //             let searchedCastList = foundCreditsList.data.cast
-    //                 console.log("searchedCastList", searchedCastList);
-    //                 searchedCastList.splice(5);
-    //                 this.actorsList = searchedCastList
-    //             // for (let j = 0; j < searchedCastList.length; j++) {
-    //             //     let actorFound = searchedCastList[j].name
-    //             //     console.log("attore trovato", actorFound);
-    //             //     this.actorsList.push(actorFound)
-    //             // }
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //         })
-    //     // }
-    // }
   }
 }
 </script>
