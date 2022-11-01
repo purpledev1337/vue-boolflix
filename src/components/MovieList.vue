@@ -1,7 +1,8 @@
 <template>
 
+
     <div id="list_container">
-        <div class="card"
+        <div :class="filterMovies()" class="card"
         v-for="movieCard, i in moviesSearched"
         :key="'m'+ i">
             <img class="poster_img" :src="getPosterImg(movieCard)" :alt="movieCard.title">
@@ -24,7 +25,7 @@
                 <p><strong>Trama: </strong>{{ movieCard.overview }}</p>
             </div>
         </div>
-        <div class="card"
+        <div :class="filterSeries()" class="card"
         v-for="serieCard, j in seriesSearched"
         :key="'s'+ j">
             <img class="poster_img" :src="getPosterImg(serieCard)">
@@ -47,6 +48,7 @@
                 <p><strong>Trama: </strong>{{ serieCard.overview }}</p>
             </div>    
         </div>
+        
     </div>
 
 </template>
@@ -58,6 +60,7 @@ export default {
   props: {
       moviesSearched : Array,
       seriesSearched : Array,
+      filterTypeSelected : String
   },
   data() {
       return {
@@ -65,7 +68,9 @@ export default {
           flagIt: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Flag_of_Italy.svg/1200px-Flag_of_Italy.svg.png",
           flagUk: "https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg",
           flagUs: "https://upload.wikimedia.org/wikipedia/commons/e/e2/Flag_of_the_United_States_%28Pantone%29.svg",
-          flagWorld: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/World_Flag_%282004%29.svg/800px-World_Flag_%282004%29.svg.png"
+          flagWorld: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/World_Flag_%282004%29.svg/800px-World_Flag_%282004%29.svg.png",
+          movieClass: 'active',
+          serieClass: 'active'
       }
   },
   methods: {
@@ -101,8 +106,22 @@ export default {
           } else {
               return this.flagWorld
           }
+      },
+      filterMovies() {
+        if (this.filterTypeSelected == 'both' | this.filterTypeSelected == 'movies') {
+            return "visible"
+        } if (this.filterTypeSelected == 'series') {
+            return "not_visible"
+        }
+      },
+      filterSeries() {
+        if (this.filterTypeSelected == 'both' | this.filterTypeSelected == 'series') {
+            return "visible"
+            } if (this.filterTypeSelected == 'movies') {
+            return "not_visible"
+        }
       }
-  }
+    }
 }
 </script>
 
@@ -137,7 +156,7 @@ export default {
         height: 100%;
         object-fit: cover;
         position: absolute;
-    border-radius: 15px;
+        border-radius: 15px;
 
     }
 
@@ -148,7 +167,7 @@ export default {
         padding: 5px 20px;
         flex-direction: column;
         justify-content: flex-start;
-    border-radius: 15px;
+        border-radius: 15px;
 
 
         h1 {
@@ -210,6 +229,14 @@ export default {
             -webkit-box-orient: vertical;
         }
     }
+}
+
+.visible {
+    display: block;
+}
+
+.not_visible {
+    display: none;
 }
 
 .poster_img {

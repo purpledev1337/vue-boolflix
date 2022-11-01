@@ -1,6 +1,13 @@
 <template>
   <div>
     <input v-model="searchTxt" @keyup.enter="searchAny" type="text">
+
+    <select v-model="filterTypeSelected" name="filterType" id="0">
+      <option value="both">Film e Serie Tv</option>
+      <option value="movies">...solo Film</option>
+      <option value="series">...solo Serie TV</option>
+    </select>
+
     <button @click="searchAny">Cerca</button>
   </div>
 </template>
@@ -22,10 +29,12 @@ export default {
       serieId: '',
       searchedMoviesList: [],
       searchedSeriesList: [],
+      filterTypeSelected: 'both'
     }
   },
   methods: {
     searchAny() {
+      this.$emit('filterTypeFound', this.filterTypeSelected)
 
       this.apiUrl = this.baseUrl + "movie?" + this.apiKey + this.apiLanguage + this.searchTxt.replace(/\s/g,"+");
 
@@ -55,7 +64,7 @@ export default {
       axios
       .get(this.apiUrl)
       .then((foundSeriesList) => {
-          this.searchedSeriesList = foundSeriesList.data.results;
+        this.searchedSeriesList = foundSeriesList.data.results;
           this.searchedSeriesList.forEach((item) => {
             this.serieId = item.id
             this.apiCreditsUrl = 'https://api.themoviedb.org/3/tv/' + this.serieId + '/credits?api_key=6daf8c812c8d1160c91335b1fd6ab733';
@@ -71,7 +80,6 @@ export default {
 
           this.$emit('seriesFound', this.searchedSeriesList);
       });
-
       
     }
   }
@@ -94,7 +102,7 @@ input[type=text] {
   border-bottom: 2px solid red;
 }
 
-button {
+button, select {
   width: 100px;
   height: 40px;
   border-radius: 5px;
@@ -103,6 +111,11 @@ button {
   color: white;
   font-size: 1.2em;
   background-color: red;
+}
+
+select {
+  width: initial;
+  background-color: black
 }
 
 </style>

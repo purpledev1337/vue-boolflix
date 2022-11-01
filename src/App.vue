@@ -5,6 +5,7 @@
       <SearchTab id="search_tab"
       @moviesFound="getMovieList"
       @seriesFound="getSerieList"
+      @filterTypeFound="getType"
       />
     </header>
 
@@ -12,6 +13,7 @@
     <MovieList
     :moviesSearched="searchedMovies"
     :seriesSearched="searchedSeries"
+    :filterTypeSelected="filterType"
     />
     </main>
   </div>
@@ -31,6 +33,7 @@ export default {
     return {
       searchedMovies: [],
       searchedSeries: [],
+      filterType: 'both'
     }
   },
   methods: {
@@ -40,6 +43,9 @@ export default {
     getSerieList(list) {
       this.searchedSeries = list
     },
+    getType(type) {
+      this.filterType = type
+    }
   }
 }
 </script>
