@@ -6,6 +6,7 @@
       @moviesFound="getMovieList"
       @seriesFound="getSerieList"
       @filterTypeFound="getType"
+      @searchInput="getSearchInput"
       />
     </header>
 
@@ -14,6 +15,7 @@
     :moviesSearched="searchedMovies"
     :seriesSearched="searchedSeries"
     :filterTypeSelected="filterType"
+    :searchInput="searchTxt"
     />
     </main>
   </div>
@@ -45,6 +47,9 @@ export default {
     },
     getType(type) {
       this.filterType = type
+    },
+    getSearchInput(input) {
+      this.searchTxt = input
     }
   }
 }

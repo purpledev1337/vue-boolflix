@@ -35,7 +35,8 @@ export default {
   methods: {
     searchAny() {
       this.$emit('filterTypeFound', this.filterTypeSelected)
-
+      this.$emit('searchInput', this.searchTxt);
+      
       this.apiUrl = this.baseUrl + "movie?" + this.apiKey + this.apiLanguage + this.searchTxt.replace(/\s/g,"+");
 
       axios
