@@ -48,7 +48,9 @@
                 <p><strong>Trama: </strong>{{ serieCard.overview }}</p>
             </div>    
         </div>
-        
+        <div v-if="seriesSearched == 0 && moviesSearched == 0">
+            <h1>Non ci sono risultati per la ricerca: "{{ searchInput }}"</h1>
+        </div>
     </div>
 
 </template>
@@ -131,11 +133,14 @@ export default {
 #list_container {
     display: flex;
     flex-wrap: wrap;
+    height: calc(100vh - 150px);
+    justify-content: center;
+    align-content: center;
 }
 
 .card {
     width: calc(100% / 6 - 10px);
-    height: 450px;
+    height: calc(((100vh - 150px) / 2) - 10px);
     margin: 2.5px 5px;
     background-color: rgb(30, 30, 30);
     color: white;
