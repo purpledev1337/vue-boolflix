@@ -60,7 +60,8 @@ export default {
   props: {
       moviesSearched : Array,
       seriesSearched : Array,
-      filterTypeSelected : String
+      filterTypeSelected : String,
+      searchInput : String
   },
   data() {
       return {
