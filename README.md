@@ -1,7 +1,10 @@
 # vue-boolflix
 
+![Animation3 (1)](https://user-images.githubusercontent.com/88691096/208996017-857b0ff4-757f-4049-a354-9a2c4d63b7d7.gif)
+
 ## Project setup
 ```
+
 npm install
 ```
 
