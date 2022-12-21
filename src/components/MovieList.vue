@@ -134,8 +134,6 @@ export default {
     display: flex;
     flex-wrap: wrap;
     height: calc(100vh - 150px);
-    justify-content: center;
-    align-content: center;
 }
 
 .card {
