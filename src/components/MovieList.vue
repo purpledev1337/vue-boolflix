@@ -48,9 +48,9 @@
                 <p><strong>Trama: </strong>{{ serieCard.overview }}</p>
             </div>    
         </div>
-        <div v-if="seriesSearched == 0 && moviesSearched == 0">
+        <!-- <div v-if="seriesSearched == 0 && moviesSearched == 0">
             <h1>Non ci sono risultati per la ricerca: "{{ searchInput }}"</h1>
-        </div>
+        </div> -->
     </div>
 
 </template>
